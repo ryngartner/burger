@@ -9,20 +9,21 @@ $(function() {
             type: "PUT",
             data: newDevour
         }).then(function() {
+            console.log("Change devour to", newDevour);
             location.reload();
         });
     });
 
     $(".create-form").on("submit", function(event) {
         event.preventDefault();
-        var burgerName = {
-            name: $("#ca").val().trim(),
+        var newBurger = {
+            name: $("#burger").val().trim(),
             devoured: false
         };
 
         $.ajax("/api/burgers", {
             type: "POST",
-            data: burgerName
+            data: newBurger
         }).then(
             function() {
                 console.log("created new burger");

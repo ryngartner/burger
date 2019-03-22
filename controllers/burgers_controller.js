@@ -1,15 +1,11 @@
 var express = require("express");
-
 var app = express();
-
 var burger = require("../models/burger.js");
 
 app.get("/", function(req, res) {
     burger.all(function(data) {
-        var hbsObject = {
-            burger: data
-        };
-        console.log(hbsObject);
+        var hbsObject = {burgers: data};
+        // console.log(hbsObject);
         res.render("index", hbsObject);
     });
 });
@@ -24,7 +20,7 @@ app.post("/api/burgers", function(req, res) {
 app.put("/api/burgers/:id", function(req, res) {
     var condition = "id = " + req.params.id;
 
-    console.log("condition", condition);
+    // console.log("condition", condition);
 
     burger.update(req.body, condition, function(result) {
         if (result.changedRows == 0) {
