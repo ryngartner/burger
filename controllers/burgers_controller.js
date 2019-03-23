@@ -1,28 +1,39 @@
+// Require Express
 var express = require("express");
 var app = express();
 var burger = require("../models/burger.js");
 
-app.get("/", function(req, res) {
-    burger.all(function(data) {
-        var hbsObject = {burgers: data};
-        // console.log(hbsObject);
+// GET route to get burgers from database
+app.get("/", function (req, res) {
+    burger.all(function (data) {
+        var hbsObject = {
+            burgers: data
+        };
+        console.log(hbsObject);
         res.render("index", hbsObject);
     });
 });
 
-app.post("/api/burgers", function(req, res) {
+// POST route to create/add a burger
+app.post("/api/burgers", function (req, res) {
     burger.create(["burger_name", "devoured"],
-        [req.body.name, false],function(result) {
-        res.json({ id: result.insertId });
-    });
+        [req.body.name, false],
+        function (result) {
+            res.json({
+                id: result.insertId
+            });
+        });
 });
 
-app.put("/api/burgers/:id", function(req, res) {
+// PUT route to update burger devoured
+app.put("/api/burgers/:id", function (req, res) {
     var condition = "id = " + req.params.id;
 
-    // console.log("condition", condition);
+    console.log("condition", condition);
 
-    burger.update(req.body, condition, function(result) {
+    burger.update({
+        devoured: req.body.devoured
+    }, condition, function (result) {
         if (result.changedRows == 0) {
             return res.status(404).end();
         } else {
@@ -31,16 +42,19 @@ app.put("/api/burgers/:id", function(req, res) {
     });
 });
 
-app.delete("/api/burgers/:id", function(req, res) {
+
+app.delete("/api/burgers/:id", function (req, res) {
     var condition = "id = " + req.params.id;
 
-    burger.delete(condition, function(result) {
+    burger.delete(condition, function (result) {
         if (result.affectedRows == 0) {
-            return res. status(404).end();
+            return res.status(404).end();
         } else {
             res.status(200).end();
         }
     });
 });
 
+
+// Export routes for server.js to use
 module.exports = app;

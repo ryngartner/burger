@@ -1,3 +1,4 @@
+// Requiring connection.js for ORM communication with the database
 var connection = require("..//config/connection.js");
 
 function printQuestionMarks(num) {
@@ -24,16 +25,16 @@ function objToSql(ob) {
     return arr.toString();
 }
 var orm = {
-    all: function(tableInput, cb) {
+    all: function (tableInput, cb) {
         var queryString = "SELECT * FROM " + tableInput + ";";
-        connection.query(queryString, function(err, result) {
+        connection.query(queryString, function (err, result) {
             if (err) {
                 throw err;
             }
             cb(result);
         });
     },
-    create: function(table, cols, vals, cb) {
+    create: function (table, cols, vals, cb) {
         var queryString = "INSERT INTO " + table;
         queryString += " (";
         queryString += cols.toString();
@@ -44,14 +45,14 @@ var orm = {
 
         console.log(queryString);
 
-        connection.query(queryString, vals, function(err, result) {
+        connection.query(queryString, vals, function (err, result) {
             if (err) {
                 throw err;
             }
             cb(result);
         });
     },
-    update: function(table, vals, condition, cb) {
+    update: function (table, vals, condition, cb) {
         var queryString = "UPDATE " + table;
         queryString += " SET ";
         queryString += objToSql(vals);
@@ -59,21 +60,22 @@ var orm = {
         queryString += condition;
 
         console.log(queryString);
-        connection.query(queryString, function(err, result) {
+        connection.query(queryString, function (err, result) {
             if (err) throw err;
             cb(result);
         });
     },
-    delete: function(table, condition, cb) {
+    delete: function (table, condition, cb) {
         var queryString = "DELETE FROM " + table;
         queryString += " WHERE ";
         queryString += condition;
 
-        connection.query(queryString, function(err, result) {
+        connection.query(queryString, function (err, result) {
             if (err) throw err;
             cb(result);
         });
     }
 };
 
+// Export the orm object
 module.exports = orm;
