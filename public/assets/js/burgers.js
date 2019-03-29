@@ -2,15 +2,15 @@
 
 $(function () {
 
-  $(".change-devour").on("click", function (event) {
+  $(".devour-button").on("click", function (event) {
     var id = $(this).data("id");
     var newDevour = {
       name: $("#burger").val().trim(),
       devoured: true
     };
-    // Send PUT request
-    $.ajax("/api/burgers/" + id, {
-      type: "PUT",
+    // Send POST request
+    $.ajax("/burger/eat/" + id, {
+      type: "POST",
       data: newDevour
     }).then(function () {
       console.log("Change devour to", newDevour);

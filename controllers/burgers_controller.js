@@ -24,7 +24,7 @@ app.post("/burger/create", function (req, res) {
     });
 });
 
-
+// POST route to delete burger
 app.post("/burger/eat/:id", function (req, res) {
     burger.updateOne(req.params.id, function () {
         res.redirect("/index");
